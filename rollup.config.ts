@@ -6,6 +6,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 export default defineConfig([
   {
     input: 'middleware.ts',
+    input: 'middleware.ts',
     output: {
       file: 'dist/middleware.js',
       format: 'esm',
