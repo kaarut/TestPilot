@@ -10,8 +10,23 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    name: Static Code Analysis
+    steps:
+      - uses: actions/checkout@v4
+      - uses: semgrep/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
   test:
     runs-on: ubuntu-latest
+    needs: semgrep
     steps:
       - uses: anc95/ChatGPT-CodeReview@main
         env:

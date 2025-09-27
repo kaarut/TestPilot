@@ -27,8 +27,6 @@ jobs:
             p/security-audit
             p/secrets
             p/owasp-top-ten
-        env:
-          SEMGREP_APP_TOKEN: \${{ secrets.SEMGREP_APP_TOKEN }}
 `;
 
 export const robot = (app: Probot) => {
@@ -68,7 +66,6 @@ export const robot = (app: Probot) => {
       }
     }
   });
-
   const loadChat = async (context: Context) => {
     if (process.env.USE_GITHUB_MODELS === 'true' && process.env.GITHUB_TOKEN) {
       return new Chat(process.env.GITHUB_TOKEN);
@@ -238,7 +235,7 @@ export const robot = (app: Probot) => {
           repo: repo.repo,
           owner: repo.owner,
           pull_number: context.pullRequest().pull_number,
-          body: ress.length ? "Code review summary" : "LGTM 👍",
+          body: ress.length ? "Code review by ChatGPT" : "LGTM 👍",
           event: 'COMMENT',
           commit_id: commits[commits.length - 1].sha,
           comments: ress,
